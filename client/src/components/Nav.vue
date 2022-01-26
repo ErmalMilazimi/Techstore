@@ -33,7 +33,7 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/product">About Us</router-link>
+            <router-link class="nav-link" to="/AboutUs">About Us</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Contact Us</a>

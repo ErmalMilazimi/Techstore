@@ -1,5 +1,5 @@
 <template>
-  <div class="product">
+  <router-link class="product" to="/product">
     <div class="imageContainer">
       <img :src="require(`../assets/products/${imgSrc}`)" alt="" />
     </div>
@@ -9,7 +9,7 @@
         {{ content }}
       </p>
     </div>
-  </div>
+  </router-link>
 </template>
 <script>
 export default {
@@ -24,6 +24,8 @@ export default {
 </script>
 <style scoped>
 .product {
+  color: #000;
+  text-decoration: none;
   width: 200px;
   height: 350px;
   display: flex;
