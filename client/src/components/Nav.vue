@@ -38,18 +38,33 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Contact Us</a>
           </li>
+          <li class="nav-item">
+            <img
+              v-on:click="cartActiveFunc"
+              class="nav-link cart-icon"
+              src="../assets/cart.svg"
+              alt=""
+            />
+          </li>
         </ul>
       </div>
     </div>
   </nav>
+  <Cart :isActive="cartActive" />
 </template>
 <script>
+import Cart from "./Cart.vue";
+
 export default {
   name: "Nav",
   props: {},
+  components: {
+    Cart,
+  },
   data() {
     return {
       active: "",
+      cartActive: false,
     };
   },
   created() {
@@ -62,6 +77,9 @@ export default {
       } else {
         this.active = "";
       }
+    },
+    cartActiveFunc() {
+      this.cartActive = true;
     },
   },
 };
@@ -86,5 +104,10 @@ export default {
 }
 .navbar-collapse {
   text-align: center;
+}
+.cart-icon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 }
 </style>
