@@ -39,8 +39,6 @@
 export default {
   name: "PopularBrands",
 };
-let dummyData = [];
-console.log(dummyData);
 </script>
 <style scoped>
 .card-container {

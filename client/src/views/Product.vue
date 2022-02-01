@@ -3,36 +3,24 @@
   <div class="container productContainer">
     <div class="leftSide">
       <div class="mainImage">
-        <img src="../assets/products/iphone11.png" alt="" />
+        <img :src="`${singleProduct.images[0]}`" alt="" />
       </div>
       <div class="smallerImgs-container">
-        <div class="smallerImgs-img">
-          <img src="../assets/products/iphone11.png" alt="" />
-        </div>
-        <div class="smallerImgs-img">
-          <img src="../assets/products/iphone11.png" alt="" />
-        </div>
-        <div class="smallerImgs-img">
-          <img src="../assets/products/iphone11.png" alt="" />
-        </div>
-        <div class="smallerImgs-img">
-          <img src="../assets/products/iphone11.png" alt="" />
-        </div>
-        <div class="smallerImgs-img">
-          <img src="../assets/products/iphone11.png" alt="" />
-        </div>
-        <div class="smallerImgs-img">
-          <img src="../assets/products/iphone11.png" alt="" />
+        <div
+          v-for="images in singleProduct.images"
+          v-bind:key="images"
+          class="smallerImgs-img"
+        >
+          <img :src="images" alt="" />
         </div>
       </div>
     </div>
     <div class="rightSide">
-      <h3 class="title">Apple iPhone 11 Pro Max 256GB Unlocked</h3>
+      <h3 class="title">{{ singleProduct.title }}</h3>
       <p class="description">
-        Looks like new at first glance. Very light signs of use such as small
-        scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year warranty
+        {{ singleProduct.description }}
       </p>
-      <p class="price">950.00 $</p>
+      <p class="price">{{ singleProduct.price }} €</p>
       <div class="buttonsContainer">
         <button class="buttonsContainer-btn" type="submit" id="addToCart-btn">
           Add to Cart
@@ -55,6 +43,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header.vue";
 import Products from "@/components/Product.vue";
@@ -117,7 +106,26 @@ export default {
           imgSrc: "iphone11.png",
         },
       ],
+      singleProduct: undefined,
     };
+  },
+  computed: {
+    productId() {
+      return this.$route.params.id; // From route
+    },
+  },
+  async created() {
+    let result = await axios.get("http://localhost:4000/product");
+    this.products = result.data;
+    console.log(this.products);
+
+    console.log(this.$route.params.id);
+    let result2 = await axios.get(
+      "http://localhost:4000/product/" + this.$route.params.id
+    );
+
+    console.log(result2.data);
+    this.singleProduct = result2.data;
   },
 };
 </script>
@@ -143,11 +151,9 @@ export default {
   align-items: center;
 }
 .mainImage img {
-  height: 100%;
   box-sizing: border-box;
   max-width: 100%;
   max-height: 100%;
-  width: 100%;
 }
 .smallerImgs-container {
   margin: 0 auto;
@@ -156,16 +162,18 @@ export default {
   box-shadow: 0 0 10px 1px #c4c4c4;
 }
 .smallerImgs-img {
+  position: relative;
   cursor: pointer;
   width: 70px;
 }
 .smallerImgs-img img {
-  height: 100%;
   box-sizing: border-box;
   max-width: 100%;
   max-height: 100%;
-  width: 100%;
-  transform: scale(1);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
   box-shadow: none;
   transition: transform 0.1s, box-shadow 0.2s;
   z-index: -1;
@@ -175,7 +183,7 @@ export default {
 }
 .smallerImgs-img:hover img {
   box-shadow: 0 0 10px 1px #c4c4c4;
-  transform: scale(1.1);
+  transform: translate(-50%, -50%) scale(1.1);
   z-index: 1;
 }
 .relatedProducts {
@@ -184,7 +192,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
 }
 .relatedProducts .title {
   width: 100%;

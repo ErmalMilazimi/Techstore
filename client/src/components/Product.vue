@@ -1,12 +1,15 @@
 <template>
-  <router-link class="product" to="/product">
+  <router-link class="product" :to="`/product/${_id}`">
     <div class="imageContainer">
-      <img :src="require(`../assets/products/${imgSrc}`)" alt="" />
+      <img :src="`${images[0]}`" alt="" />
     </div>
     <div class="textContainer">
       <h4 class="title">{{ title }}</h4>
       <p class="desc">
-        {{ content }}
+        {{ description }}
+      </p>
+      <p>
+        {{ price }}
       </p>
     </div>
   </router-link>
@@ -16,9 +19,12 @@ export default {
   name: "Product",
   components: {},
   props: {
+    _id: String,
     title: String,
-    content: String,
-    imgSrc: String,
+    description: String,
+    images: Array,
+    price: Number,
+    category: String,
   },
 };
 </script>
@@ -40,17 +46,22 @@ export default {
   z-index: 1;
 }
 .imageContainer {
+  position: relative;
   width: 100%;
   height: 70%;
   overflow: hidden;
 }
 .imageContainer img {
-  width: 100%;
-  transform: scale(1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 100%;
+  max-height: 100%;
+  transform: translate(-50%, -50%) scale(1);
   transition: transform 0.2s ease;
 }
 .product:hover .imageContainer img {
-  transform: scale(1.2);
+  transform: translate(-50%, -50%) scale(1.2);
 }
 .textContainer {
   height: 22%;
