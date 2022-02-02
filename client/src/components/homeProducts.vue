@@ -5,13 +5,14 @@
       <Products
         v-for="product in products"
         v-bind="product"
-        v-bind:key="product.id"
+        v-bind:key="product._id"
       />
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import Products from "@/components/Product.vue";
 
 export default {
@@ -22,57 +23,12 @@ export default {
   props: {},
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-      ],
+      products: [],
     };
+  },
+  async created() {
+    let result = await axios.get("http://localhost:4000/product");
+    this.products = result.data;
   },
 };
 </script>

@@ -23,7 +23,6 @@ export default {
   async created() {
     let result = await axios.get("http://localhost:4000/product");
     this.products = result.data;
-    console.log(this.products);
   },
 };
 </script>

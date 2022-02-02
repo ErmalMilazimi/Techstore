@@ -3,24 +3,25 @@
   <div class="container productContainer">
     <div class="leftSide">
       <div class="mainImage">
-        <img :src="`${singleProduct.images[0]}`" alt="" />
+        <img :src="`${bannerImage}`" alt="" />
       </div>
       <div class="smallerImgs-container">
         <div
-          v-for="images in singleProduct.images"
-          v-bind:key="images"
+          v-for="imgs in images"
+          v-bind:key="imgs._id"
           class="smallerImgs-img"
+          @click="changeBG(imgs)"
         >
-          <img :src="images" alt="" />
+          <img :src="imgs" alt="" />
         </div>
       </div>
     </div>
     <div class="rightSide">
-      <h3 class="title">{{ singleProduct.title }}</h3>
+      <h3 class="title">{{ title }}</h3>
       <p class="description">
-        {{ singleProduct.description }}
+        {{ description }}
       </p>
-      <p class="price">{{ singleProduct.price }} €</p>
+      <p class="price">{{ price }} €</p>
       <div class="buttonsContainer">
         <button class="buttonsContainer-btn" type="submit" id="addToCart-btn">
           Add to Cart
@@ -56,76 +57,54 @@ export default {
   },
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-        {
-          id: 2,
-          title: "Apple iPhone 11 Pro Max 256GB Unlocked",
-          content: `Looks like new at first glance. Very light signs of use such as
-            small scratches. Battery Min 85%. OEM Original Apple Parts. 1 Year
-            warranty`,
-          imgSrc: "iphone11.png",
-        },
-      ],
+      products: [],
       singleProduct: undefined,
+      productID: this.$route.params.id,
+      bannerImage: undefined,
+      images: [],
+      title: "",
+      description: "",
+      price: "",
     };
   },
-  computed: {
-    productId() {
-      return this.$route.params.id; // From route
+  watch: {
+    $route() {
+      this.productID = this.$route.params.id;
+      this.updatePage();
     },
   },
   async created() {
     let result = await axios.get("http://localhost:4000/product");
     this.products = result.data;
-    console.log(this.products);
 
-    console.log(this.$route.params.id);
     let result2 = await axios.get(
-      "http://localhost:4000/product/" + this.$route.params.id
+      "http://localhost:4000/product/" + this.productID
     );
 
-    console.log(result2.data);
-    this.singleProduct = result2.data;
+    this.bannerImage = result2.data.images[0];
+    this.images = result2.data.images;
+    this.title = result2.data.title;
+    this.description = result2.data.description;
+    this.price = result2.data.price;
+  },
+  methods: {
+    changeBG(bg) {
+      this.bannerImage = bg;
+    },
+    async updatePage() {
+      let result = await axios.get("http://localhost:4000/product");
+      this.products = result.data;
+
+      let result2 = await axios.get(
+        "http://localhost:4000/product/" + this.productID
+      );
+
+      this.bannerImage = result2.data.images[0];
+      this.images = result2.data.images;
+      this.title = result2.data.title;
+      this.description = result2.data.description;
+      this.price = result2.data.price;
+    },
   },
 };
 </script>
@@ -144,8 +123,7 @@ export default {
   flex-direction: column;
 }
 .mainImage {
-  height: 100%;
-  max-height: 450px;
+  height: 450px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,15 +134,24 @@ export default {
   max-height: 100%;
 }
 .smallerImgs-container {
-  margin: 0 auto;
+  margin: 20px auto 0 auto;
   display: flex;
   flex-wrap: wrap;
   box-shadow: 0 0 10px 1px #c4c4c4;
 }
 .smallerImgs-img {
   position: relative;
-  cursor: pointer;
   width: 70px;
+  height: 70px;
+  box-shadow: none;
+  background-color: #fff;
+  transition: transform 0.1s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.smallerImgs-img:hover {
+  box-shadow: 0 0 10px 1px #c4c4c4;
+  transform: scale(1.1);
+  z-index: 1;
 }
 .smallerImgs-img img {
   box-sizing: border-box;
@@ -174,17 +161,6 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%) scale(1);
-  box-shadow: none;
-  transition: transform 0.1s, box-shadow 0.2s;
-  z-index: -1;
-}
-.smallerImgs-img:hover {
-  z-index: 1;
-}
-.smallerImgs-img:hover img {
-  box-shadow: 0 0 10px 1px #c4c4c4;
-  transform: translate(-50%, -50%) scale(1.1);
-  z-index: 1;
 }
 .relatedProducts {
   width: 100%;
