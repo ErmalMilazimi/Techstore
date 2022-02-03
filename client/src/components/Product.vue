@@ -8,9 +8,7 @@
       <p class="desc">
         {{ description }}
       </p>
-      <p>
-        {{ price }}
-      </p>
+      <p>{{ price.toFixed(2) }}€</p>
     </div>
   </router-link>
 </template>
