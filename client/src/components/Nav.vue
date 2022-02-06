@@ -39,6 +39,9 @@
             <a class="nav-link" href="#">Contact Us</a>
           </li>
           <li class="nav-item">
+            <div class="nav-link" v-on:click="showModal = active">Login</div>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/cart">
               <img class="cart-icon" src="../assets/cart.svg" alt="" />
             </router-link>
@@ -46,17 +49,23 @@
         </ul>
       </div>
     </div>
+    <LoginRegister :showModal="showModal" />
   </nav>
 </template>
 <script>
+import LoginRegister from "./LoginRegister.vue";
 export default {
   name: "Nav",
   props: {},
+  components: {
+    LoginRegister,
+  },
 
   data() {
     return {
       active: "",
-      cartActive: false,
+      LoginRegister: "LoginRegister",
+      showModal: "active",
     };
   },
   created() {
@@ -69,9 +78,6 @@ export default {
       } else {
         this.active = "";
       }
-    },
-    cartActiveFunc() {
-      this.cartActive = true;
     },
   },
 };
