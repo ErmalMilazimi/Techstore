@@ -39,7 +39,9 @@
             <a class="nav-link" href="#">Contact Us</a>
           </li>
           <li class="nav-item">
-            <div class="nav-link" v-on:click="showModal = active">Login</div>
+            <div class="nav-link login" v-on:click="showModal = true">
+              Login
+            </div>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/cart">
@@ -49,7 +51,7 @@
         </ul>
       </div>
     </div>
-    <LoginRegister :showModal="showModal" />
+    <LoginRegister @close="showModal = false" v-if="showModal" />
   </nav>
 </template>
 <script>
@@ -65,7 +67,7 @@ export default {
     return {
       active: "",
       LoginRegister: "LoginRegister",
-      showModal: "active",
+      showModal: false,
     };
   },
   created() {
@@ -106,6 +108,9 @@ export default {
 .cart-icon {
   width: 25px;
   height: 25px;
+  cursor: pointer;
+}
+.login {
   cursor: pointer;
 }
 </style>
