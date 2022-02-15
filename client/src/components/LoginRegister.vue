@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-container" v-on:click="hideModal()">
+  <div class="modal-container">
     <div class="logReg-modal">
       <div class="close_modal" @click="$emit('close')">
         <img src="../assets/xmark-solid.svg" alt="" />
@@ -10,8 +10,20 @@
       </div>
       <div class="logReg-modal-content">
         <div class="logReg-modal-content-buttons">
-          <p class="logReg-modal-content-buttons-btn">Login</p>
-          <p class="logReg-modal-content-buttons-btn">Register</p>
+          <p
+            v-on:click="loginFunc('login')"
+            class="logReg-modal-content-buttons-btn"
+            v-bind:class="login ? 'active' : ''"
+          >
+            Login
+          </p>
+          <p
+            v-on:click="loginFunc('register')"
+            class="logReg-modal-content-buttons-btn"
+            v-bind:class="login ? '' : 'active'"
+          >
+            Register
+          </p>
         </div>
         <div v-if="login" class="logReg-modal-login">
           <div class="flex-reverse">
@@ -19,7 +31,7 @@
             <label for="username">Username</label>
           </div>
           <div class="flex-reverse">
-            <input type="text" id="password" placeholder=" " />
+            <input type="password" id="password" placeholder=" " />
             <label for="password">Password</label>
           </div>
           <button>LOGIN</button>
@@ -30,10 +42,14 @@
             <label for="username">Username</label>
           </div>
           <div class="flex-reverse">
-            <input type="text" id="password" placeholder=" " />
+            <input type="email" id="email" placeholder=" " />
+            <label for="email">Email</label>
+          </div>
+          <div class="flex-reverse">
+            <input type="password" id="password" placeholder=" " />
             <label for="password">Password</label>
           </div>
-          <button>LOGIN</button>
+          <button>REGISTER</button>
         </div>
       </div>
     </div>
@@ -48,7 +64,13 @@ export default {
     };
   },
   methods: {
-    hideModal: function () {},
+    loginFunc: function (str) {
+      if (str == "login") {
+        this.login = true;
+      } else if (str == "register") {
+        this.login = false;
+      }
+    },
   },
 };
 </script>
@@ -113,6 +135,7 @@ export default {
   display: flex;
   justify-content: space-around;
   border-bottom: 2px solid #02cbdd;
+  margin-bottom: 15px;
 }
 .logReg-modal-content-buttons-btn {
   position: relative;
@@ -123,8 +146,23 @@ export default {
   margin: 0;
   text-align: center;
   border: 2px solid #02cbdd;
-  color: #02cbdd;
+  background-color: #02cbdd;
+  color: #fff;
   border-radius: 5px 5px 0 0;
+  cursor: pointer;
+}
+.logReg-modal-content-buttons-btn.active {
+  background-color: #fff;
+  color: #02cbdd;
+}
+.logReg-modal-content-buttons-btn.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 5px;
+  bottom: -3px;
+  background: #fff;
 }
 .flex-reverse {
   display: flex;
