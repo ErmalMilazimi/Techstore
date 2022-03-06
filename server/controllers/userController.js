@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 // Login in a existing user
 export let login = async (req, res) => {
   try {
+    console.log(req.body);
     // Get user input
     const { email, password } = req.body;
 
@@ -18,7 +19,7 @@ export let login = async (req, res) => {
         process.env.TOKEN_SECRET,
 
         {
-          expiresIn: "2h",
+          expiresIn: "120h",
         }
       );
 

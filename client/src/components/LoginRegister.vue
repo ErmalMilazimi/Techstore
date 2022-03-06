@@ -13,40 +13,55 @@
           <p
             v-on:click="loginFunc('login')"
             class="logReg-modal-content-buttons-btn"
-            v-bind:class="login ? 'active' : ''"
+            v-bind:class="loginV ? 'active' : ''"
           >
             Login
           </p>
           <p
             v-on:click="loginFunc('register')"
             class="logReg-modal-content-buttons-btn"
-            v-bind:class="login ? '' : 'active'"
+            v-bind:class="loginV ? '' : 'active'"
           >
             Register
           </p>
         </div>
-        <div v-if="login" class="logReg-modal-login">
+        <div v-if="loginV" class="logReg-modal-login">
           <div class="flex-reverse">
-            <input type="text" id="username" placeholder=" " />
-            <label for="username">Username</label>
-          </div>
-          <div class="flex-reverse">
-            <input type="password" id="password" placeholder=" " />
-            <label for="password">Password</label>
-          </div>
-          <button>LOGIN</button>
-        </div>
-        <div v-if="!login" class="logReg-modal-register">
-          <div class="flex-reverse">
-            <input type="text" id="username" placeholder=" " />
-            <label for="username">Username</label>
-          </div>
-          <div class="flex-reverse">
-            <input type="email" id="email" placeholder=" " />
+            <input v-model="emailLog" type="email" id="email" placeholder=" " />
             <label for="email">Email</label>
           </div>
           <div class="flex-reverse">
-            <input type="password" id="password" placeholder=" " />
+            <input
+              v-model="passwordLog"
+              type="password"
+              id="password"
+              placeholder=" "
+            />
+            <label for="password">Password</label>
+          </div>
+          <button v-on:click="login()">LOGIN</button>
+        </div>
+        <div v-if="!loginV" class="logReg-modal-register">
+          <div class="flex-reverse">
+            <input
+              v-model="usernameReg"
+              type="text"
+              id="username"
+              placeholder=" "
+            />
+            <label for="username">Username</label>
+          </div>
+          <div class="flex-reverse">
+            <input v-model="emailReg" type="email" id="email" placeholder=" " />
+            <label for="email">Email</label>
+          </div>
+          <div class="flex-reverse">
+            <input
+              v-model="passwordReg"
+              type="password"
+              id="password"
+              placeholder=" "
+            />
             <label for="password">Password</label>
           </div>
           <button>REGISTER</button>
@@ -56,20 +71,40 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   name: "LoginRegister",
   data() {
     return {
-      login: true,
+      loginV: true,
+      emailLog: "",
+      passwordLog: "",
+      usernameReg: "",
+      passwordReg: "",
+      emailReg: "",
     };
   },
   methods: {
     loginFunc: function (str) {
       if (str == "login") {
-        this.login = true;
+        this.loginV = true;
       } else if (str == "register") {
-        this.login = false;
+        this.loginV = false;
       }
+    },
+    login() {
+      axios
+        .post("http://localhost:4000/user/login", {
+          email: this.emailLog,
+          password: this.passwordLog,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   },
 };
