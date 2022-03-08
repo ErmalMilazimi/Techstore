@@ -17,6 +17,6 @@ app.delete("/:id", auth, productController.deleteProduct);
 app.put("/", auth, productController.updateProduct);
 
 // Add a new product
-app.post("/", auth, productController.addProduct);
+app.post("/addproduct", auth, productController.addProduct);
 
 export default app;
