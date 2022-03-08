@@ -57,12 +57,12 @@ export let register = async (req, res) => {
       email: email.toLowerCase(), // sanitize: convert email to lowercase
       password: encryptedPassword,
       cart: [],
-      role,
+      role: "user",
     });
 
     // Create token
     const token = jwt.sign({ user_id: user._id, email }, process.env.TOKEN_SECRET, {
-      expiresIn: "72h",
+      expiresIn: "120h",
     });
     // save user token
     user.token = token;

@@ -26,6 +26,15 @@
           </p>
         </div>
         <div v-if="loginV" class="logReg-modal-login">
+          <div class="alert-success" v-if="success">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+              <path
+                d="M0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256zM371.8 211.8C382.7 200.9 382.7 183.1 371.8 172.2C360.9 161.3 343.1 161.3 332.2 172.2L224 280.4L179.8 236.2C168.9 225.3 151.1 225.3 140.2 236.2C129.3 247.1 129.3 264.9 140.2 275.8L204.2 339.8C215.1 350.7 232.9 350.7 243.8 339.8L371.8 211.8z"
+              />
+            </svg>
+            <span> Account registered succesfuly!</span>
+          </div>
           <div class="flex-reverse">
             <input v-model="emailLog" type="email" id="email" placeholder=" " />
             <label for="email">Email</label>
@@ -64,7 +73,7 @@
             />
             <label for="password">Password</label>
           </div>
-          <button>REGISTER</button>
+          <button v-on:click="register()">REGISTER</button>
         </div>
       </div>
     </div>
@@ -77,6 +86,7 @@ export default {
   name: "LoginRegister",
   data() {
     return {
+      success: false,
       loginV: true,
       emailLog: "",
       passwordLog: "",
@@ -86,7 +96,7 @@ export default {
     };
   },
   methods: {
-    loginFunc: function (str) {
+    loginFunc(str) {
       if (str == "login") {
         this.loginV = true;
       } else if (str == "register") {
@@ -101,6 +111,25 @@ export default {
         })
         .then(function (response) {
           console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    register() {
+      axios
+        .post("http://localhost:4000/user/register", {
+          username: this.usernameReg,
+          password: this.passwordReg,
+          role: "",
+          email: this.emailReg,
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.status == 201) {
+            this.loginFunc("login");
+            this.success = true;
+          }
         })
         .catch(function (error) {
           console.log(error);
@@ -264,5 +293,21 @@ export default {
   border-radius: 7px;
   border-bottom: none;
   position: relative;
+}
+.alert-success {
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.alert-success svg {
+  width: 16px;
+  height: 16px;
+  fill: #0f5132;
+  position: relative;
+  left: -11px;
 }
 </style>
