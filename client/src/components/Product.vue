@@ -8,7 +8,7 @@
       <p class="desc">
         {{ description }}
       </p>
-      <p>{{ price.toFixed(2) }}€</p>
+      <p class="price">{{ price.toFixed(2) }}€</p>
     </div>
   </router-link>
 </template>
@@ -30,6 +30,7 @@ export default {
 .product {
   color: #000;
   text-decoration: none;
+  margin: 5px;
   width: 200px;
   height: 350px;
   display: flex;
@@ -46,15 +47,15 @@ export default {
 .imageContainer {
   position: relative;
   width: 100%;
-  height: 70%;
+  height: 60%;
   overflow: hidden;
 }
 .imageContainer img {
   position: absolute;
   top: 50%;
   left: 50%;
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 90%;
+  max-height: 90%;
   transform: translate(-50%, -50%) scale(1);
   transition: transform 0.2s ease;
 }
@@ -62,8 +63,10 @@ export default {
   transform: translate(-50%, -50%) scale(1.2);
 }
 .textContainer {
-  height: 22%;
   padding: 0 10px 10px 10px;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
 }
 .textContainer h4 {
   font-size: 17px;
@@ -73,11 +76,12 @@ export default {
 .textContainer p {
   font-size: 14px;
   margin: 0;
-  margin-left: -3px;
-  height: 20px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: pre;
+}
+.textContainer .price {
+  margin: auto 0 0 0;
 }
 
 @media only screen and (max-width: 992px) {
