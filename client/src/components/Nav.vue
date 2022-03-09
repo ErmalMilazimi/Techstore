@@ -36,7 +36,9 @@
             <router-link class="nav-link" to="/AboutUs">About Us</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact Us</a>
+            <router-link class="nav-link" to="/contactUs"
+              >Contact Us</router-link
+            >
           </li>
           <li class="nav-item">
             <div class="nav-link login" v-on:click="showModal = true">

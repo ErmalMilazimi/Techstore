@@ -4,6 +4,7 @@ import ProductList from "../views/ProductList.vue";
 import Product from "../views/Product.vue";
 import About from "../views/About.vue";
 import Cart from "../views/Cart.vue";
+import Contact from "../views/Contact.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/AboutUs",
     name: "AboutUs",
     component: About,
+  },
+  {
+    path: "/contactUs",
+    name: "Contact",
+    component: Contact,
   },
 ];
 
