@@ -81,6 +81,7 @@
 </template>
 <script>
 import axios from "axios";
+import { mapActions } from "vuex";
 
 export default {
   name: "LoginRegister",
@@ -96,6 +97,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      loginAuth: "auth/loginAuth",
+    }),
     loginFunc(str) {
       if (str == "login") {
         this.loginV = true;
@@ -104,17 +108,11 @@ export default {
       }
     },
     login() {
-      axios
-        .post("http://localhost:4000/user/login", {
-          email: this.emailLog,
-          password: this.passwordLog,
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      let data = {
+        email: this.emailLog,
+        password: this.passwordLog,
+      };
+      this.loginAuth(data);
     },
     register() {
       axios
