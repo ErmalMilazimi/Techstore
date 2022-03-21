@@ -112,11 +112,13 @@ export default {
         email: this.emailLog,
         password: this.passwordLog,
       };
-      this.loginAuth(data);
+      this.loginAuth(data).then(() => {
+        this.$emit("close");
+      });
     },
     register() {
       axios
-        .post("http://localhost:4000/user/register", {
+        .post("/user/register", {
           username: this.usernameReg,
           password: this.passwordReg,
           role: "",

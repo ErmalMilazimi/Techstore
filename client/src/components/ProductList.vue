@@ -21,7 +21,7 @@ export default {
     };
   },
   async created() {
-    let result = await axios.get("http://localhost:4000/product");
+    let result = await axios.get("/product");
     this.products = result.data;
   },
 };

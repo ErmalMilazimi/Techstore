@@ -1,14 +1,14 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore } from "vuex";
 import auth from "./auth";
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-  state: {},
+const store = createStore({
+  state: {
+    patients: [],
+  },
   mutations: {},
   actions: {},
   modules: {
     auth,
   },
 });
+export default store;

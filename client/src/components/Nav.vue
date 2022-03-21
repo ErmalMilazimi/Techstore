@@ -40,11 +40,28 @@
               >Contact Us</router-link
             >
           </li>
-          <li class="nav-item">
-            <div class="nav-link login" v-on:click="showModal = true">
-              Login
-            </div>
-          </li>
+          <template v-if="authenticated">
+            <li class="nav-item">
+              <div v-if="authenticated" class="nav-link login">
+                Hi, {{ user.username }}
+              </div>
+            </li>
+            <li class="nav-item">
+              <router-link
+                v-if="user.role == 'admin'"
+                class="nav-link"
+                to="/dashboard"
+                >Dashboard</router-link
+              >
+            </li>
+          </template>
+          <template v-else>
+            <li class="nav-item">
+              <div class="nav-link login" v-on:click="showModal = true">
+                Login
+              </div>
+            </li>
+          </template>
           <li class="nav-item">
             <router-link class="nav-link" to="/cart">
               <img class="cart-icon" src="../assets/cart.svg" alt="" />
@@ -58,6 +75,7 @@
 </template>
 <script>
 import LoginRegister from "./LoginRegister.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "Nav",
   props: {},
@@ -83,6 +101,12 @@ export default {
         this.active = "";
       }
     },
+  },
+  computed: {
+    ...mapGetters({
+      authenticated: "auth/authenticated",
+      user: "auth/user",
+    }),
   },
 };
 </script>

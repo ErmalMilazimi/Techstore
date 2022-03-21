@@ -5,6 +5,7 @@ import Product from "../views/Product.vue";
 import About from "../views/About.vue";
 import Cart from "../views/Cart.vue";
 import Contact from "../views/Contact.vue";
+import store from "../store";
 
 const routes = [
   {
@@ -36,6 +37,18 @@ const routes = [
     path: "/contactUs",
     name: "Contact",
     component: Contact,
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Contact,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/authenticated"]) {
+        return next({
+          name: "",
+        });
+      }
+    },
   },
 ];
 
