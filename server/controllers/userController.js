@@ -70,16 +70,19 @@ export let register = async (req, res) => {
     // return new user
     res.status(201).json(user);
   } catch (err) {
-    console.log(err);
+    res.send(err);
   }
 };
 
 // Returns Curent user's information
-export const current = (req, res) => {
+export const current = async (req, res) => {
   try {
-    res.send(req.user);
+    const email = req.user.email;
+    const userObj = await User.findOne({ email });
+
+    res.send(userObj);
   } catch (error) {
-    console.log(error);
+    res.send(error);
   }
 };
 

@@ -41,9 +41,12 @@
             >
           </li>
           <template v-if="authenticated">
-            <li class="nav-item">
+            <li class="nav-item position-relative">
               <div v-if="authenticated" class="nav-link login">
                 Hi, {{ user.username }}
+              </div>
+              <div class="nav-megamenu" @click.prevent="signOut()">
+                <p>Sign out</p>
               </div>
             </li>
             <li class="nav-item">
@@ -75,7 +78,7 @@
 </template>
 <script>
 import LoginRegister from "./LoginRegister.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Nav",
   props: {},
@@ -100,6 +103,14 @@ export default {
       } else {
         this.active = "";
       }
+    },
+    ...mapActions({
+      signOutAction: "auth/signOut",
+    }),
+
+    signOut() {
+      this.signOutAction();
+      this.$router.replace({ name: "Home" });
     },
   },
   computed: {
@@ -138,5 +149,23 @@ export default {
 }
 .login {
   cursor: pointer;
+}
+.nav-megamenu {
+  position: absolute;
+  width: 90px;
+  left: 50%;
+  bottom: 10px;
+  transform: translate(-50%, 120%) scaleY(0);
+  transform-origin: top;
+  background-color: #fff;
+  padding: 10px;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+.nav-megamenu p {
+  margin: 0;
+}
+.nav-item:hover .nav-megamenu {
+  transform: translate(-50%, 120%) scaleY(1);
 }
 </style>

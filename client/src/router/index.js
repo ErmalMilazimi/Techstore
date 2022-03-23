@@ -5,7 +5,8 @@ import Product from "../views/Product.vue";
 import About from "../views/About.vue";
 import Cart from "../views/Cart.vue";
 import Contact from "../views/Contact.vue";
-import store from "../store";
+import Dashboard from "../views/Dashboard.vue";
+// import store from "../store";
 
 const routes = [
   {
@@ -41,14 +42,16 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: Contact,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "",
-        });
-      }
-    },
+    component: Dashboard,
+    // beforeEnter: (to, from, next) => {
+    //   console.log("first");
+    //   if (!store.getters["auth/authenticated"]) {
+    //     console.log(store.getters["auth/authenticated"]);
+    //     return next({
+    //       name: "",
+    //     });
+    //   }
+    // },
   },
 ];
 
