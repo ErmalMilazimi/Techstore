@@ -141,7 +141,7 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Delete User</h5>
@@ -165,11 +165,11 @@
           </button>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-danger"
             data-bs-dismiss="modal"
             @click="removeUser()"
           >
-            Understood
+            Yes, remove
           </button>
         </div>
       </div>
@@ -187,7 +187,7 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Add Product</h5>
@@ -224,7 +224,7 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Remove Product</h5>
@@ -270,7 +270,7 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Edit Product</h5>
@@ -349,7 +349,7 @@ export default {
     async removeUser() {
       console.log(this.activeUser);
       await axios
-        .delete(`/user/deleteUser/${this.activeUser}`, {
+        .delete(`/user/deleteuser?userid=${this.activeUser}`, {
           headers: { Authentication: localStorage.getItem("token") },
         })
         .then(async () => {
@@ -363,7 +363,6 @@ export default {
       headers: { Authentication: localStorage.getItem("token") },
     });
     this.users = users.data;
-    console.log(users.data);
     let prds = await axios.get("/product");
     this.products = prds.data;
   },

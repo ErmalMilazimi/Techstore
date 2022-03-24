@@ -17,6 +17,6 @@ app.get("/current", auth, userController.current);
 app.get("/users", auth, isAdmin, userController.getAllUsers);
 
 // Delete user (admin)
-app.delete("/deleteUser", auth, isAdmin, userController.deleteUser);
+app.delete("/deleteuser", auth, isAdmin, userController.deleteUser);
 
 export default app;
