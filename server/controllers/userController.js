@@ -95,3 +95,30 @@ export let addToCart = (req, res) => {
     res.json(User);
   });
 };
+
+// Get all users (admin)
+export let getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, { password: 0 });
+    res.json(users);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// Delete User
+export let deleteUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.query.userid);
+
+    if (!user) {
+      throw new Error("User does not exist");
+    }
+
+    await user.remove();
+
+    res.send("User is deleted successfully");
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

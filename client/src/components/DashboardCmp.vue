@@ -26,6 +26,47 @@
       </button>
     </div>
     <div
+      v-if="userPage"
+      class="
+        cardsContainer
+        productsContainer
+        d-flex
+        flex-wrap
+        justify-content-center
+      "
+    >
+      <div
+        v-for="user in users"
+        v-bind:key="user._id"
+        class="cards d-flex flex-column"
+      >
+        <h4><b>Username:</b> {{ user.username }}</h4>
+        <h5><b>ID:</b> {{ user._id }}</h5>
+        <p><b>Email:</b> {{ user.email }}</p>
+        <p><b>Role:</b> {{ user.role }}</p>
+        <p><b>Cart items:</b> {{ user.cart.length }}</p>
+
+        <div class="actionButtons d-flex justify-content-end">
+          <button
+            class="btn btn-warning"
+            data-bs-toggle="modal"
+            data-bs-target="#editstaticBackdrop"
+            @click="activeProduct = prd._id"
+          >
+            EDIT
+          </button>
+          <button
+            class="btn btn-danger"
+            data-bs-toggle="modal"
+            data-bs-target="#removeUserstaticBackdrop"
+            @click="activeUser = user._id"
+          >
+            REMOVE
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
       v-if="productPage"
       class="
         cardsContainer
@@ -89,6 +130,52 @@
       </div>
     </div>
   </div>
+
+  <!-- Remove user modal -->
+  <div
+    class="modal fade"
+    id="removeUserstaticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Delete User</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure that you want to delete this user ?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            @click="removeUser()"
+          >
+            Understood
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Remove user modal -->
 
   <!-- Add product modal -->
   <div
@@ -219,6 +306,19 @@ export default {
   name: "DashboardCmp",
   props: {},
   components: {},
+  data() {
+    return {
+      users: [],
+      products: [],
+
+      userPage: true,
+      productPage: false,
+      commentPage: false,
+
+      activeUser: "",
+      activeProduct: "",
+    };
+  },
   methods: {
     changeLayout(page) {
       if (page == "users") {
@@ -246,20 +346,26 @@ export default {
           this.products = updated.data;
         });
     },
-  },
-  data() {
-    return {
-      products: [],
-      userPage: true,
-      productPage: false,
-      commentPage: false,
-
-      activeProduct: "",
-    };
+    async removeUser() {
+      console.log(this.activeUser);
+      await axios
+        .delete(`/user/deleteUser/${this.activeUser}`, {
+          headers: { Authentication: localStorage.getItem("token") },
+        })
+        .then(async () => {
+          let updated = await axios.get("/user/users");
+          this.users = updated.data;
+        });
+    },
   },
   async created() {
-    let result = await axios.get("/product");
-    this.products = result.data;
+    let users = await axios.get("/user/users", {
+      headers: { Authentication: localStorage.getItem("token") },
+    });
+    this.users = users.data;
+    console.log(users.data);
+    let prds = await axios.get("/product");
+    this.products = prds.data;
   },
   computed: {
     ...mapGetters({

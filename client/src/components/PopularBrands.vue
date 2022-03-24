@@ -6,19 +6,19 @@
         <div class="card-imgContainer">
           <img src="../assets/iphone.png" alt="" />
         </div>
-        <h4>Apple</h4>
+        <h4>Celulare</h4>
       </div>
       <div class="cards">
         <div class="card-imgContainer">
           <img src="../assets/lenovo.png" alt="" />
         </div>
-        <h4>Lenovo</h4>
+        <h4>Laptop</h4>
       </div>
       <div class="cards">
         <div class="card-imgContainer">
           <img src="../assets/logi.png" alt="" />
         </div>
-        <h4>Logitech</h4>
+        <h4>Mausa</h4>
       </div>
       <div class="cards">
         <div class="card-imgContainer">
