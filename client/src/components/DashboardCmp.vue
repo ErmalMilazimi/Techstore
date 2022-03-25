@@ -440,6 +440,9 @@ export default {
         });
     },
     async updateProduct() {
+      console.log("***********************");
+      console.log(this.activeProduct);
+      console.log("***********************");
       let imgs = [];
       let domImgs = document.querySelectorAll(".prdImages");
       domImgs.forEach((img) => {
@@ -455,7 +458,7 @@ export default {
         images: imgs,
       };
       let id = this.activeProduct._id;
-      console.log(this.activeProduct._id);
+      console.log(`/product/${id}`);
       await axios
         .put(`/product/${id}`, {
           headers: {

@@ -48,9 +48,9 @@ export let deleteProduct = (req, res) => {
 
 // Update a Product by id
 export let updateProduct = (req, res) => {
-  console.log("req.params.productID " + req.params.productID);
-  console.log("req.body " + req.body);
-  Product.findOneAndUpdate({ productID: req.params.productID }, req.body, { new: true }, (err, Product) => {
+  console.log("req.body ", req.body.body);
+  console.log("find: productID - ", req.params.id);
+  Product.findOneAndUpdate({ _id: req.params.id }, req.body.body, (err, Product) => {
     if (err) {
       res.json(err);
     } else {
