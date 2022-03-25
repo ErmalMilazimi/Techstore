@@ -26,9 +26,6 @@
         <button class="buttonsContainer-btn" type="submit" id="addToCart-btn">
           Add to Cart
         </button>
-        <button class="buttonsContainer-btn" type="submit" id="buyNow-btn">
-          Buy now
-        </button>
       </div>
     </div>
   </div>
@@ -211,14 +208,6 @@ export default {
 .buttonsContainer-btn:hover {
   background-color: #fff;
   color: #02cbdd;
-}
-.buttonsContainer-btn:nth-child(1) {
-  background-color: #fff;
-  color: #02cbdd;
-}
-.buttonsContainer-btn:nth-child(1):hover {
-  background-color: #02cbdd;
-  color: #fff;
 }
 @media only screen and (max-width: 992px) {
   .leftSide,

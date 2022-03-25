@@ -14,7 +14,7 @@ app.get("/:id", productController.getProduct);
 app.delete("/:id", auth, productController.deleteProduct);
 
 // Updates a product by id
-app.put("/", auth, productController.updateProduct);
+app.put("/:id", auth, productController.updateProduct);
 
 // Add a new product
 app.post("/addproduct", auth, productController.addProduct);

@@ -114,7 +114,7 @@
             class="btn btn-warning"
             data-bs-toggle="modal"
             data-bs-target="#editstaticBackdrop"
-            @click="activeProduct = prd._id"
+            @click="activeProduct = prd"
           >
             EDIT
           </button>
@@ -122,7 +122,7 @@
             class="btn btn-danger"
             data-bs-toggle="modal"
             data-bs-target="#removestaticBackdrop"
-            @click="activeProduct = prd._id"
+            @click="activeProduct = prd"
           >
             REMOVE
           </button>
@@ -169,7 +169,7 @@
             data-bs-dismiss="modal"
             @click="removeUser()"
           >
-            Yes, remove
+            Yes, remove user
           </button>
         </div>
       </div>
@@ -207,7 +207,7 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-primary">Understood</button>
+          <button type="button" class="btn btn-primary">Add Product</button>
         </div>
       </div>
     </div>
@@ -248,11 +248,11 @@
           </button>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-danger"
             data-bs-dismiss="modal"
             @click="removeProduct()"
           >
-            Understood
+            Yes, remove product
           </button>
         </div>
       </div>
@@ -281,7 +281,93 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">...</div>
+        <div class="modal-body">
+          <label for="title">Title</label>
+          <input
+            id="title"
+            type="text"
+            class="form-control"
+            placeholder="Product title"
+            v-model="activeProduct.title"
+          />
+          <label for="category">Category</label>
+          <input
+            id="category"
+            type="text"
+            class="form-control"
+            placeholder="Product category"
+            v-model="activeProduct.category"
+          />
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            type="text"
+            class="form-control"
+            placeholder="Product description"
+            v-model="activeProduct.description"
+          ></textarea>
+          <label for="price">Price</label>
+          <input
+            id="price"
+            type="text"
+            class="form-control"
+            placeholder="Product price"
+            v-model="activeProduct.price"
+          />
+          <div v-if="activeProduct.images">
+            <label for="image1">First image</label>
+            <input
+              id="image1"
+              type="text"
+              class="form-control prdImages"
+              placeholder="First product image"
+              :value="
+                activeProduct.images.length > 0 ? activeProduct.images[0] : ''
+              "
+            />
+            <label for="image2">Second image</label>
+            <input
+              id="image2"
+              type="text"
+              class="form-control prdImages"
+              placeholder="Second product image"
+              :value="
+                activeProduct.images.length > 1 ? activeProduct.images[1] : ''
+              "
+            />
+            <label for="image3">Third image</label>
+            <input
+              id="image3"
+              type="text"
+              class="form-control prdImages"
+              placeholder="Third product image"
+              :value="
+                activeProduct.images.length > 2 ? activeProduct.images[2] : ''
+              "
+            />
+            <label for="image4">Fourth image</label>
+            <input
+              id="image4"
+              type="text"
+              class="form-control prdImages"
+              placeholder="Fourth product image"
+              :value="
+                activeProduct.images.length > 3 ? activeProduct.images[3] : ''
+              "
+            />
+            <label for="image4">Fifth image</label>
+            <input
+              v-if="activeProduct.images.length > 0"
+              id="image5"
+              type="text"
+              class="form-control prdImages"
+              placeholder="Fifth product image "
+              :value="
+                activeProduct.images.length > 4 ? activeProduct.images[4] : ''
+              "
+            />
+          </div>
+        </div>
         <div class="modal-footer">
           <button
             type="button"
@@ -290,7 +376,14 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-primary">Understood</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+            @click="updateProduct()"
+          >
+            Update product
+          </button>
         </div>
       </div>
     </div>
@@ -338,7 +431,7 @@ export default {
 
     async removeProduct() {
       await axios
-        .delete(`/product/${this.activeProduct}`, {
+        .delete(`/product/${this.activeProduct._id}`, {
           headers: { Authentication: localStorage.getItem("token") },
         })
         .then(async () => {
@@ -346,8 +439,37 @@ export default {
           this.products = updated.data;
         });
     },
+    async updateProduct() {
+      let imgs = [];
+      let domImgs = document.querySelectorAll(".prdImages");
+      domImgs.forEach((img) => {
+        if (img.value.length > 0) {
+          imgs.push(img.value);
+        }
+      });
+      let obj = {
+        title: this.activeProduct.title,
+        price: this.activeProduct.price,
+        description: this.activeProduct.description,
+        category: this.activeProduct.category,
+        images: imgs,
+      };
+      let id = this.activeProduct._id;
+      console.log(this.activeProduct._id);
+      await axios
+        .put(`/product/${id}`, {
+          headers: {
+            Authentication: localStorage.getItem("token"),
+          },
+          body: obj,
+        })
+        .then(async () => {
+          let updated = await axios.get("/product");
+          this.products = updated.data;
+          console.log(updated.data);
+        });
+    },
     async removeUser() {
-      console.log(this.activeUser);
       await axios
         .delete(`/user/deleteuser?userid=${this.activeUser}`, {
           headers: { Authentication: localStorage.getItem("token") },
@@ -434,5 +556,12 @@ export default {
 }
 .actionButtons .btn:first-child {
   margin-right: 10px;
+}
+.modal-dialog label {
+  display: block;
+  margin: 20px 0 10px 0;
+}
+.modal-dialog textarea {
+  min-height: 150px;
 }
 </style>
