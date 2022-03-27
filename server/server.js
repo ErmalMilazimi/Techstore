@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 import cors from "cors";
 
 dotenv.config();
@@ -25,5 +26,7 @@ app.use("/user", userRoutes);
 app.use("/product", productRoutes);
 // Cart routes
 app.use("/cart", cartRoutes);
+// Contact routes
+app.use("/contact", contactRoutes);
 
 app.listen(process.env.SERVER_PORT, () => console.log(`Server running on localhost:${process.env.SERVER_PORT}`));

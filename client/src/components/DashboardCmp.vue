@@ -129,6 +129,26 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="commentPage"
+      class="
+        cardsContainer
+        productsContainer
+        d-flex
+        flex-wrap
+        justify-content-center
+      "
+    >
+      <div
+        v-for="comment in comments"
+        v-bind:key="comment._id"
+        class="cards d-flex flex-column"
+      >
+        <h4><b>Username:</b> {{ comment.name }}</h4>
+        <p><b>Email:</b> {{ comment.email }}</p>
+        <p><b>Message:</b> {{ comment.message }}</p>
+      </div>
+    </div>
   </div>
 
   <!-- Remove user modal -->
@@ -198,7 +218,80 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">...</div>
+        <div class="modal-body">
+          <label for="title">Title</label>
+          <input
+            id="title"
+            type="text"
+            class="form-control"
+            placeholder="Product title"
+            v-model="addTitle"
+          />
+          <label for="category">Category</label>
+          <input
+            id="category"
+            type="text"
+            class="form-control"
+            placeholder="Product category"
+            v-model="addCategory"
+          />
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            type="text"
+            class="form-control"
+            placeholder="Product description"
+            v-model="addDescription"
+          ></textarea>
+          <label for="price">Price</label>
+          <input
+            id="price"
+            type="text"
+            class="form-control"
+            placeholder="Product price"
+            v-model="addPrice"
+          />
+          <label for="image1">First image</label>
+          <input
+            id="image1"
+            type="text"
+            class="form-control prdImages"
+            placeholder="First product image"
+            v-model="addImg1"
+          />
+          <label for="image2">Second image</label>
+          <input
+            id="image2"
+            type="text"
+            class="form-control prdImages"
+            placeholder="Second product image"
+            v-model="addImg2"
+          />
+          <label for="image3">Third image</label>
+          <input
+            id="image3"
+            type="text"
+            class="form-control prdImages"
+            placeholder="Third product image"
+            v-model="addImg3"
+          />
+          <label for="image4">Fourth image</label>
+          <input
+            id="image4"
+            type="text"
+            class="form-control prdImages"
+            placeholder="Fourth product image"
+            v-model="addImg4"
+          />
+          <label for="image4">Fifth image</label>
+          <input
+            id="image5"
+            type="text"
+            class="form-control prdImages"
+            placeholder="Fifth product image"
+            v-model="addImg5"
+          />
+        </div>
         <div class="modal-footer">
           <button
             type="button"
@@ -207,7 +300,13 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-primary">Add Product</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click.prevent="addProduct()"
+          >
+            Add Product
+          </button>
         </div>
       </div>
     </div>
@@ -403,6 +502,7 @@ export default {
     return {
       users: [],
       products: [],
+      comments: [],
 
       userPage: true,
       productPage: false,
@@ -410,6 +510,18 @@ export default {
 
       activeUser: "",
       activeProduct: "",
+
+      // add product
+
+      addTitle: "",
+      addPrice: "",
+      addCategory: "",
+      addDescription: "",
+      addImg1: "",
+      addImg2: "",
+      addImg3: "",
+      addImg4: "",
+      addImg5: "",
     };
   },
   methods: {
@@ -429,6 +541,37 @@ export default {
       }
     },
 
+    async addProduct() {
+      let tmpImg = [
+        this.addImg1,
+        this.addImg2,
+        this.addImg3,
+        this.addImg4,
+        this.addImg5,
+      ];
+      let imgs = [];
+      tmpImg.forEach((el) => {
+        if (el.length > 0) {
+          imgs.push(el);
+        }
+      });
+      let obj = {
+        title: this.addTitle,
+        price: this.addPrice,
+        category: this.addCategory,
+        description: this.addDescription,
+        images: imgs,
+      };
+      await axios
+        .post(`/product/addproduct`, {
+          headers: { Authentication: localStorage.getItem("token") },
+          body: obj,
+        })
+        .then(async () => {
+          let updated = await axios.get("/product");
+          this.products = updated.data;
+        });
+    },
     async removeProduct() {
       await axios
         .delete(`/product/${this.activeProduct._id}`, {
@@ -440,9 +583,6 @@ export default {
         });
     },
     async updateProduct() {
-      console.log("***********************");
-      console.log(this.activeProduct);
-      console.log("***********************");
       let imgs = [];
       let domImgs = document.querySelectorAll(".prdImages");
       domImgs.forEach((img) => {
@@ -458,7 +598,6 @@ export default {
         images: imgs,
       };
       let id = this.activeProduct._id;
-      console.log(`/product/${id}`);
       await axios
         .put(`/product/${id}`, {
           headers: {
@@ -490,6 +629,8 @@ export default {
     this.users = users.data;
     let prds = await axios.get("/product");
     this.products = prds.data;
+    let cmt = await axios.get("/contact");
+    this.comments = cmt.data;
   },
   computed: {
     ...mapGetters({

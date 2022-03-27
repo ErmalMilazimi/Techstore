@@ -21,6 +21,7 @@
               id="name"
               type="text"
               placeholder="Name"
+              v-model="name"
             />
           </div>
 
@@ -31,6 +32,7 @@
               id="emailAddress"
               type="email"
               placeholder="Email Address"
+              v-model="email"
             />
           </div>
 
@@ -42,11 +44,18 @@
               type="text"
               placeholder="Message"
               style="height: 10rem"
+              v-model="message"
             ></textarea>
           </div>
 
           <div class="d-grid">
-            <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+            <button
+              class="btn btn-primary btn-lg"
+              type="submit"
+              @click.prevent="sendFeedback()"
+            >
+              Submit
+            </button>
           </div>
         </form>
       </div>
@@ -83,6 +92,29 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
+export default {
+  name: "ContactCmp",
+  data() {
+    return {
+      name: "",
+      email: "",
+      message: "",
+    };
+  },
+  methods: {
+    sendFeedback() {
+      let tmpObj = {
+        name: this.name,
+        email: this.email,
+        message: this.message,
+      };
+      console.log(tmpObj);
+      axios.post("/contact/addContacts", { body: tmpObj });
+    },
+  },
+};
 </script>
 <style scoped>
 .contact-wrapper {

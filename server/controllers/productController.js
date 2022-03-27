@@ -24,7 +24,7 @@ export let getProduct = (req, res) => {
 
 // Add a new Product
 export let addProduct = (req, res) => {
-  let newProduct = new Product(req.body);
+  let newProduct = new Product(req.body.body);
 
   newProduct.save((err, Product) => {
     if (err) {
@@ -37,7 +37,7 @@ export let addProduct = (req, res) => {
 
 // Delete a Product
 export let deleteProduct = (req, res) => {
-  Product.deleteOne({ Product: req.params.title }, (err) => {
+  Product.deleteOne({ _id: req.params.id }, (err) => {
     if (err) {
       res.json(err);
     } else {
@@ -48,8 +48,6 @@ export let deleteProduct = (req, res) => {
 
 // Update a Product by id
 export let updateProduct = (req, res) => {
-  console.log("req.body ", req.body.body);
-  console.log("find: productID - ", req.params.id);
   Product.findOneAndUpdate({ _id: req.params.id }, req.body.body, (err, Product) => {
     if (err) {
       res.json(err);

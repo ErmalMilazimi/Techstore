@@ -13,7 +13,7 @@ export let getContacts = (req, res) => {
 
 // Add a new Contact
 export let addContact = (req, res) => {
-  let newContact = new Contact(req.body);
+  let newContact = new Contact(req.body.body);
 
   newContact.save((err, Contact) => {
     if (err) {

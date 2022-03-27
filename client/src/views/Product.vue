@@ -128,6 +128,7 @@ export default {
 .mainImage img {
   box-sizing: border-box;
   max-width: 100%;
+  min-width: 300px;
   max-height: 100%;
 }
 .smallerImgs-container {
