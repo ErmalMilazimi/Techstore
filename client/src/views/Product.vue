@@ -23,7 +23,12 @@
       </p>
       <p class="price">{{ price }} €</p>
       <div class="buttonsContainer">
-        <button class="buttonsContainer-btn" type="submit" id="addToCart-btn">
+        <button
+          class="buttonsContainer-btn"
+          type="submit"
+          id="addToCart-btn"
+          @click.prevent="addCart()"
+        >
           Add to Cart
         </button>
       </div>
@@ -102,6 +107,9 @@ export default {
       this.description = result2.data.description;
       this.price = result2.data.price;
     },
+    // async addCart() {
+    //   axios.post("/user/addtocart");
+    // },
   },
 };
 </script>

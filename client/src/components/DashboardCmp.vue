@@ -1,5 +1,5 @@
 <template>
-  <div class="container mainContainer">
+  <div class="container mainContainer" v-if="user.role == 'admin'">
     <h3>Dashboard</h3>
     <hr />
     <div class="buttonsContainer d-flex justify-content-center">
@@ -47,14 +47,6 @@
         <p><b>Cart items:</b> {{ user.cart.length }}</p>
 
         <div class="actionButtons d-flex justify-content-end">
-          <button
-            class="btn btn-warning"
-            data-bs-toggle="modal"
-            data-bs-target="#editstaticBackdrop"
-            @click="activeProduct = prd._id"
-          >
-            EDIT
-          </button>
           <button
             class="btn btn-danger"
             data-bs-toggle="modal"
@@ -303,6 +295,7 @@
           <button
             type="button"
             class="btn btn-primary"
+            data-bs-dismiss="modal"
             @click.prevent="addProduct()"
           >
             Add Product

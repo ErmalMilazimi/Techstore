@@ -19,4 +19,7 @@ app.get("/users", auth, isAdmin, userController.getAllUsers);
 // Delete user (admin)
 app.delete("/deleteuser", auth, isAdmin, userController.deleteUser);
 
+// Add a product to cart
+// app.post("/addtocart", auth, userController.addToCart);
+
 export default app;

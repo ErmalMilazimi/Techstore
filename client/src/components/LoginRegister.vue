@@ -125,7 +125,6 @@ export default {
           email: this.emailReg,
         })
         .then((response) => {
-          console.log(response);
           if (response.status == 201) {
             this.loginFunc("login");
             this.success = true;
