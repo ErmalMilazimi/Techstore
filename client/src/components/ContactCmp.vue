@@ -111,7 +111,11 @@ export default {
         message: this.message,
       };
       console.log(tmpObj);
-      axios.post("/contact/addContacts", { body: tmpObj });
+      axios.post("/contact/addContacts", { body: tmpObj }).then(() => {
+        this.name = "";
+        this.email = "";
+        this.message = "";
+      });
     },
   },
 };
